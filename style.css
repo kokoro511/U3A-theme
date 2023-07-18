@@ -60,3 +60,30 @@ Astra local fonts feature is based on Webfonts Loader by WordPress Themes Team (
 Licensed under MIT ( https://github.com/WPTT/webfont-loader/blob/master/LICENSE )
 
 /* Note: The CSS files are loaded from assets/css/ folder. */
+
+
+
+
+/*directory function*/
+.article-toc {
+    border: dashed 2px #666!important;
+    padding: 5px 10px!important;
+    margin: 0 0 10px 0!important;
+	background:#fff;
+}
+.toc-content{
+	display:none;
+	transition-duration:.3s;
+}
+#toc-ul li {
+	list-style:decimal;
+	padding-right:20px;
+	margin-bottom:0;
+}
+.toc-title .toc-switch {
+    float: right;
+	margin-left:20px;
+}
+.toc-title p {
+    display: contents;
+}

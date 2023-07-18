@@ -180,3 +180,80 @@ require_once ASTRA_THEME_DIR . 'inc/core/markup/class-astra-markup.php';
 require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-filters.php';
 require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-hooks.php';
 require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-functions.php';
+
+// Article Directory
+function article_index($content) {
+$matches = array();
+$ul_li = '';
+$r = '/<h([2-6]).*?\>(.*?)<\/h[2-6]>/is';
+if(is_single() && preg_match_all($r, $content, $matches)) {
+foreach($matches[1] as $key => $value) {
+$title = trim(strip_tags($matches[2][$key]));
+$content = str_replace($matches[0][$key], '<h' . $value . ' id="title-' . $key . '">'.$title.'</h2>', $content);
+$ul_li .= '<li><a href="#title-'.$key.'" title="'.$title.'">'.$title."</a></li>\n";
+}
+$content = "\n<div id=\"article-toc\" class=\"article-toc\">
+\n<div class=\"toc-title\">
+<p>文章目录（展开/隐藏→）</p>
+<span class=\"toc-switch\">
+<a style=\"cursor:pointer;\" class=\"toc-show-hide\" id=\"toc-hide\" title=\"show\">展开</a>
+</span>
+</div>
+<div class=\"toc-content\"><ul id=\"toc-ul\">\n" . $ul_li . "</ul></div>
+</div>\n" . $content;
+}
+return $content;
+}
+add_filter( 'the_content', 'article_index' );
+
+/**
+* WordPress disabled Google Open Sansfont
+*/
+add_filter( 'gettext_with_context', 'wpdx_disable_open_sans', 888, 4 );
+function wpdx_disable_open_sans( $translations, $text, $context, $domain ) {
+if ( 'Open Sans font: on or off' == $context && 'on' == $text ) {
+$translations = 'off';
+}
+return $translations;
+}
+
+// Force the jquery library to load at the bottom of the file
+function ds_print_jquery_in_footer( &$scripts) {
+if ( ! is_admin() )
+$scripts->add_data( 'jquery', 'group', 1 );
+}
+add_action( 'wp_default_scripts', 'ds_print_jquery_in_footer' );
+
+// shield
+add_filter('rest_enabled', '__return_false');
+add_filter('rest_jsonp_enabled', '__return_false');
+
+//remove label
+remove_action('wp_head', 'rest_output_link_wp_head', 10 );
+remove_action('template_redirect', 'rest_output_link_header', 11 );
+
+// no self Pingback
+add_action('pre_ping', '_noself_ping');
+function _noself_ping(&$links) {
+	$home = get_option('home');
+	foreach ($links as $l => $link) {
+		if (0 === strpos($link, $home)) {
+			unset($links[$l]);
+		}
+	}
+}
+
+// global-styles-inline-css
+add_action('wp_enqueue_scripts', 'fanly_remove_global_styles_inline');
+function fanly_remove_global_styles_inline() {
+	wp_deregister_style( 'global-styles' );
+	wp_dequeue_style( 'global-styles' );
+}
+
+//  JPEG
+function wpdx_custom_jpeg_quality() {
+	return 100;
+}
+add_filter( 'jpeg_quality', 'wpdx_custom_jpeg_quality');
+
+?>
