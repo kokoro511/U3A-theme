@@ -22,10 +22,7 @@ define( 'ASTRA_THEME_URI', trailingslashit( esc_url( get_template_directory_uri(
 define( 'ASTRA_PRO_UPGRADE_URL', 'https://wpastra.com/pro/?utm_source=dashboard&utm_medium=free-theme&utm_campaign=upgrade-now' );
 define( 'ASTRA_PRO_CUSTOMIZER_UPGRADE_URL', 'https://wpastra.com/pro/?utm_source=customizer&utm_medium=free-theme&utm_campaign=upgrade' );
 
-/**
- * Minimum Version requirement of the Astra Pro addon.
- * This constant will be used to display the notice asking user to update the Astra addon to the version defined below.
- */
+
 define( 'ASTRA_EXT_MIN_VER', '4.1.0' );
 
 /**
