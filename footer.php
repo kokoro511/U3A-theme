@@ -33,4 +33,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_footer(); 
 ?>
 	</body>
+
+<script>
+jQuery(document).ready(function($){
+$('.toc-switch').click(function(){
+if($('.toc-show-hide').is('#toc-show')){
+$('.toc-content').attr("style","display:none;");
+$('.toc-show-hide').attr("id","toc-hide").attr("title","hide").text("展开");
+}
+else if($('.toc-show-hide').is('#toc-hide')){
+$(".toc-content").attr("style","display:block;");
+$('.toc-show-hide').attr("id","toc-show").attr("title","show").text("隐藏");
+}
+})
+});
+</script>
+
 </html>
